@@ -1,84 +1,94 @@
 from Tkinter import *
 
 root = Tk()
+d = 5
 
 def move(event=None):
     global x
     global y
     try:
         if event.keysym == 'Right':
-            x = 1
+            x = d
             y = 0
         elif event.keysym == 'Left':
-            x = -1
+            x = -d
             y = 0
         elif event.keysym == 'Up':
             x = 0
-            y = -1
+            y = -d
         elif event.keysym == 'Down':
             x = 0
-            y = 1
+            y = d
     except AttributeError:
         pass
-    canvas.move(rectangle, x, y) 
+    xp1, yp1, xp2, yp2 = canvas.coords(_object)
+    if xp1 <= 0:
+        going_right()
+    elif yp1 <= 0:
+        going_down()
+    elif xp2 >= 1000:
+        going_left()
+    elif yp2 >= 500:
+        going_up()
+    canvas.move(_object, x, y) 
     canvas.bind('<Right>', going_right)
     canvas.bind('<Left>', going_left)
     canvas.bind('<Up>', going_up)
     canvas.bind('<Down>', going_down)
     root.after(1, move)
     
-def going_right(event):
+def going_right(event=None):
     global x 
     global y
-    if x == 1:
+    if x == d:
         if y == 0:
             x = 0
         else:
-            x = 1
+            x = d
             y = 0
     else:
-        x = 1
+        x = d
         
-def going_left(event):
+def going_left(event=None):
     global x 
     global y
-    if x == -1:
+    if x == -d:
         if y == 0:
             x = 0
         else:
-            x = -1
+            x = -d
             y = 0
     else:
-        x = -1
+        x = -d
         
-def going_up(event):
+def going_up(event=None):
     global x 
     global y
-    if y == -1:
+    if y == -d:
         if x == 0:
             y = 0
         else:
             x = 0
-            y = -1
+            y = -d
     else:
-        y = -1
+        y = -d
         
-def going_down(event):
+def going_down(event=None):
     global x 
     global y
-    if y == 1:
+    if y == d:
         if x == 0:
             y = 0
         else:
             x = 0
-            y = 1
+            y = d
     else:
-        y = 1
+        y = d
 
 canvas = Canvas(root, width=1000, height=500)
 canvas.pack()
 
-rectangle = canvas.create_rectangle(80, 80, 120, 120)
+_object = canvas.create_oval(80, 80, 120, 120, fill='black')
 canvas.bind('<Right>', move)
 canvas.bind('<Left>', move)
 canvas.bind('<Up>', move)
