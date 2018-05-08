@@ -1,0 +1,82 @@
+from Tkinter import *
+
+root = Tk()
+
+def move(event=None):
+    global x
+    global y
+    try:
+        if event.keysym == 'Right':
+            x = 1
+            y = 0
+        elif event.keysym == 'Left':
+            x = -1
+            y = 0
+        elif event.keysym == 'Up':
+            x = 0
+            y = -1
+        elif event.keysym == 'Down':
+            x = 0
+            y = 1
+    except AttributeError:
+        pass
+    canvas.move(rectangle, x, y) 
+    canvas.bind('<Right>', going_right)
+    canvas.bind('<Left>', going_left)
+    canvas.bind('<Up>', going_up)
+    canvas.bind('<Down>', going_down)
+    root.after(1, move)
+    
+def going_right(event):
+    global x
+    global y
+    if x == 1:
+        x = 0
+        y = 0
+    else:
+        x = 1
+        y = 0
+        
+def going_left(event):
+    global x
+    global y
+    if x == -1:
+        x = 0
+        y = 0
+    else:
+        x = -1
+        y = 0
+        
+def going_up(event):
+    global x 
+    global y
+    if y == -1:
+        x = 0
+        y = 0
+    else:
+        x = 0
+        y = -1
+        
+def going_down(event):
+    global x 
+    global y
+    if y == 1:
+        x = 0
+        y = 0
+    else:
+        x = 0
+        y = 1
+            
+canvas = Canvas(root, width=1000, height=500)
+canvas.pack()
+
+rectangle = canvas.create_rectangle(80, 80, 120, 120)
+canvas.bind('<Right>', move)
+canvas.bind('<Left>', move)
+canvas.bind('<Up>', move)
+canvas.bind('<Down>', move)
+
+
+canvas.focus_set()
+
+root.mainloop()
