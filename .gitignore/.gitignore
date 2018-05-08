@@ -76,7 +76,6 @@ canvas.bind('<Left>', move)
 canvas.bind('<Up>', move)
 canvas.bind('<Down>', move)
 
-
 canvas.focus_set()
 
 root.mainloop()
